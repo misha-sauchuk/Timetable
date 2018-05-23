@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2 class="text-left">Добавление месяца</h2>
+    {% if e in choose_month.non_form_errors %}
+        <div class="alert alert-danger">{{ e }}</div>
+    {% endif %}
+    <form method="POST" action="{% url 'choose_month' %}" class="form-horizontal">{% csrf_token %}
+        {{ choose_month.as_p }}
+
+
+
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+            <button type="submit" class="btn btn-primary">сохранить</button>
+
+            </div>
+        </div>
+    </form>
+    <!--{{ choose_month.errors }}-->
+
+{% endblock %}
+
+{% block footer %}
+{% endblock %}
+
+

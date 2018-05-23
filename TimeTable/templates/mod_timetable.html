@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h3 class="text-left">Изменить график</h3>
+
+
+
+    <table width="100%">
+        <tr>
+            <td></td>
+            {% with table_tuple.2 as days %}
+            {% for day in days %}
+            <td align="center" class="days"><b>{{ day }}</b></td>
+            {% endfor %}
+            {% endwith %}
+        </tr>
+        <tr>
+            <td id="leftcol" align="center">
+                {% with table_tuple.0 as name %}
+                {{ name }}
+                {% endwith %}
+            </td>
+            {% with table_tuple.1 as timetable %}
+            {% for item in timetable %}
+            <td id='rightcol' align="center" {% if item == 0 %} bgcolor="#ccc" {% endif %}>{{ item }}</td>
+            {% endfor %}
+            {% endwith %}
+        </tr>
+    </table>
+
+    {% if e in mod_timetable.non_form_errors %}
+        <div >{{ e }}</div>
+    {% endif %}
+
+    <form method="post" action="{% url 'mod_timetable' timetable_id=timetable.id  %}" class="form-horizontal">{% csrf_token %}
+        {{ mod_timetable.as_p }}
+
+        <!--<fieldset>-->
+            <!--{% for field in mod_timetable %}-->
+                <!--<div class="control-group" {% if field.errors %}has-error{% endif %}>-->
+                    <!--<label class="control-label">{{ field.label }}</label>-->
+                    <!--<div class="controls">{{ field }}</div>-->
+
+                <!--</div>-->
+            <!--{% endfor %}-->
+        <!--</fieldset>-->
+
+        <div class="form-actions">
+
+            <button type="submit" class="btn btn-primary">сохранить</button>
+
+
+        </div>
+    </form>
+    {{ mod_timetable.errors }}
+{% endblock %}
+
+{% block footer %}
+{% endblock %}
+
+
