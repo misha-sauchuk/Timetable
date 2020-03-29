@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h2 class="text-left">Добавление месяца</h2>
+    <h2 class="text-left">Add Month</h2>
     {% if e in choose_month.non_form_errors %}
         <div class="alert alert-danger">{{ e }}</div>
     {% endif %}
@@ -12,7 +12,7 @@
 
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
-            <button type="submit" class="btn btn-primary">сохранить</button>
+            <button type="submit" class="btn btn-primary">create</button>
 
             </div>
         </div>

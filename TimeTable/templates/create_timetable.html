@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h2 class="text-left">Создание графика</h2>
+    <h2 class="text-left">Create timetable</h2>
     {% if e in form.non_field_errors %}
         <div class="alert alert-danger">{{ e }}</div>
     {% endif %}
@@ -22,7 +22,7 @@
         <!--</fieldset>-->
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-9">
-            <button type="submit" class="btn btn-primary">сохранить</button>
+            <button type="submit" class="btn btn-primary">create</button>
 
             </div>
         </div>

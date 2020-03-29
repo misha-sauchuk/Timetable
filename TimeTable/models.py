@@ -1,6 +1,4 @@
 from django.db import models
-from django.contrib.auth.models import User
-#from django_mysql.models import JSONField, Model
 
 # Create your models here.
 
@@ -8,10 +6,9 @@ from django.contrib.auth.models import User
 class Mechanic(models.Model):
     name = models.CharField(max_length=50)
     surname = models.CharField(max_length=50)
-    phone = models.IntegerField()
+    phone = models.BigIntegerField(default=0, null=True, blank=True)
     address = models.CharField(max_length=250)
-    timetable_number = models.IntegerField(unique=True)
-    # image = models.ImageField(default='', upload_to='media/images', blank=True)
+    timetable_number = models.IntegerField(default=0, unique=True)
 
     class Meta:
         permissions = (('can_add_mod_mechanic', 'Create and modify mechanic'),)
@@ -28,7 +25,7 @@ class Month(models.Model):
     ('8', 'August'), ('9', 'September'), ('10', 'October'), ('11', 'November'), ('12', 'December'))
     month = models.CharField(default='', max_length=200, choices=MONTHS)
     name = models.CharField(default='', max_length=50, null=True, blank=True)
-    days_in_month = models.IntegerField(default='', null=True, blank=True)
+    days_in_month = models.IntegerField(default=0, null=True, blank=True)
     week_days = models.CharField(default='', max_length=250, null=True, blank=True)
 
     public_holidays = models.CharField(default='', max_length=20, null=True, blank=True, help_text='Enter the the days '
@@ -45,7 +42,7 @@ class Month(models.Model):
                                                                                              'days, please '
                                                                                              'enter in one line '
                                                                                              'with comma-separate')
-    working_days = models.IntegerField(default=None, null=True, blank=True)
+    working_days = models.IntegerField(default=0, null=True, blank=True)
 
     class Meta:
         permissions = (('can_add_month', 'Create a month'),)

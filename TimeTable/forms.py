@@ -12,16 +12,18 @@ class AddMechanic(ModelForm):
         model = Mechanic
         fields = ['name', 'surname', 'phone', 'address', 'timetable_number']
         help_texts = {
-            'phone': ('Use only numbres without space, example: 375291234567'),
+            'phone': ('Use only numbres without space, example: 291234567'),
         }
 
     def clean_phone(self):
         data = self.cleaned_data['phone']
+        if not data:
+            return data
         phone = str(data)
-        if phone.startswith('375'):
+        if len(phone) ==9:
             return data
         else:
-            raise forms.ValidationError('Phone number must start with 375 (code Belarus)')
+            raise forms.ValidationError('Invalid phone number')
 
 
 class ModifyMechanic(ModelForm):
@@ -41,13 +43,7 @@ class ChooseMonth(ModelForm):
             'week_days': forms.HiddenInput,
             'working_days': forms.HiddenInput
         }
-    # def clean_month(self):
-    #     data = self.cleaned_data['month']
-    #     month_created = Month.objects.all()
-    #     for month in month_created:
-    #         if data['month'] == month.month:
-    #             raise forms.ValidationError('The {} is already created'.format(month.name))
-    #     return data
+
 
     def clean(self):
         current_year = datetime.today().year
@@ -176,9 +172,7 @@ class ModTimetable(ModelForm):
             timetable[free_day-1] = 0
         working_days_mod = len(list(filter((lambda x: x > 0), timetable)))
         if working_days != working_days_mod:
-            print('I\'m here')
             raise forms.ValidationError('You should add a free day')
-            print('I\'m after raise')
         cleaned_data['timetable'] = json.dumps(timetable)
         return cleaned_data
 
@@ -247,30 +241,28 @@ def add_shift_on_monday(day_list,list_shift):
 
 def get_full_timetable(list_shift, not_all_working_days, working_days, week_days):
     for_list = [i for i in range(len(list_shift))]
-    print(len(list_shift))
     shuffle(for_list)
-    for day in for_list:
-        if not_all_working_days < working_days:
-            # print(day, 'day')
-            # print(list_shift[day-1],'-')
-            # print(list_shift[day])
-            # print(list_shift[day + 1],'+')
-            if (day < len(list_shift) and list_shift[day] == 0 and week_days[day] < 6 and list_shift[day + 1] == 7 and list_shift[
-                day - 1] == 0) or (
-                    day < len(list_shift) and day > 0 and list_shift[day] == 0 and week_days[day] < 6 and list_shift[day - 1] == 7 and
-                    list_shift[day + 1] == 0):
-                list_shift[day] = 7
-                not_all_working_days += 1
-            elif (day < len(list_shift) and list_shift[day] == 0 and week_days[day] < 6 and list_shift[day + 1] == 15 and list_shift[
-                day - 1] == 0) or (
-                    day < len(list_shift) and day > 0 and list_shift[day] == 0 and week_days[day] < 6 and list_shift[day - 1] == 15 and
-                    list_shift[day + 1] == 0):
-                list_shift[day] = 15
-                not_all_working_days += 1
-            elif (day < len(list_shift) and list_shift[day] == 0 and week_days[day] < 6 and list_shift[day + 1] == 23 and list_shift[
-                day - 1] == 0) or (
-                    day < len(list_shift) and day > 0 and list_shift[day] == 0 and week_days[day] < 6 and list_shift[day - 1] == 23 and
-                    list_shift[day + 1] == 0):
-                list_shift[day] = 23
-                not_all_working_days += 1
+    try:
+        for day in for_list:
+            if not_all_working_days < working_days:
+                if (day < len(list_shift) and list_shift[day] == 0 and week_days[day] < 6 and list_shift[day + 1] == 7 and list_shift[
+                    day - 1] == 0) or (
+                        day < len(list_shift) and day > 0 and list_shift[day] == 0 and week_days[day] < 6 and list_shift[day - 1] == 7 and
+                        list_shift[day + 1] == 0):
+                    list_shift[day] = 7
+                    not_all_working_days += 1
+                elif (day < len(list_shift) and list_shift[day] == 0 and week_days[day] < 6 and list_shift[day + 1] == 15 and list_shift[
+                    day - 1] == 0) or (
+                        day < len(list_shift) and day > 0 and list_shift[day] == 0 and week_days[day] < 6 and list_shift[day - 1] == 15 and
+                        list_shift[day + 1] == 0):
+                    list_shift[day] = 15
+                    not_all_working_days += 1
+                elif (day < len(list_shift) and list_shift[day] == 0 and week_days[day] < 6 and list_shift[day + 1] == 23 and list_shift[
+                    day - 1] == 0) or (
+                        day < len(list_shift) and day > 0 and list_shift[day] == 0 and week_days[day] < 6 and list_shift[day - 1] == 23 and
+                        list_shift[day + 1] == 0):
+                    list_shift[day] = 23
+                    not_all_working_days += 1
+    except IndexError:
+        get_full_timetable(list_shift, not_all_working_days, working_days, week_days)
     return list_shift

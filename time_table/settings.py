@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/2.0/ref/settings/
 """
 
 import os
+import django_heroku
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -22,13 +23,11 @@ PROJECT_ROOT = os.path.abspath(os.path.dirname(__file__))
 
 # SECURITY WARNING: keep the secret key used in production secret!
 # SECRET_KEY = 'owpjiqsq6$39w0mrc)@^46bw!76@%oo2ix)$q7@xou@+oateez'
-SECRET_KEY = os.environ.get('SECRET_KEY')
+SECRET_KEY = os.environ.get('TT_SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-# DEBUG = os.environ.get('DEBUG')
-
-ALLOWED_HOSTS = []
+DEBUG = (os.environ.get('DEBUG_VALUE') == 'True')
+ALLOWED_HOSTS = ['mechanictimetable.herokuapp.com']
 
 
 # Application definition
@@ -138,3 +137,6 @@ EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_PASS')
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+django_heroku.settings(locals())
+

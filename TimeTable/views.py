@@ -197,12 +197,3 @@ def search(request):
                                                        'current_month': current_month,
                                                        'month': month})
     return render(request, 'search.html')
-
-
-
-# d2 = {'free_days': None, 'public_holidays': None, 'week_days': '[6, 7, 1, 2, 3, 4, 5, 6, 7, 1, 2, 3, 4, 5, 6, 7, 1, 2, 3, 4, 5, 6, 7, 1, 2, 3, 4, 5, 6, 7, 1]', 'month': '12', 'working_days': 21, 'days_in_month': 31, 'name': 'December'}
-#
-# d1 = {'month': '12', 'name': 'December', 'free_days': None, 'week_days': '[6, 7, 1, 2, 3, 4, 5, 6, 7, 1, 2, 3, 4, 5, 6, 7, 1, 2, 3, 4, 5, 6, 7, 1, 2, 3, 4, 5, 6, 7, 1]', 'working_days': 21, 'days_in_month': 31, 'public_holidays': None}
-#
-# if d1 == d2:
-#     print('ok')

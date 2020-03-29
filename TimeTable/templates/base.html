@@ -33,10 +33,10 @@
                 </form>
 
 
-                <a href="{% url 'home' %}" class="top-menu pull-left">Главная</a>
-                <a href="{% url 'mechanics' %}" class="top-menu pull-left">Список механиков</a>
-                <a href="{% url 'months' %}" class="top-menu pull-left">График работы за месяц</a>
-                <a href="{% url 'time_table' %}" class="top-menu pull-left">График работы за год</a>
+                <a href="{% url 'home' %}" class="top-menu pull-left">Main</a>
+                <a href="{% url 'mechanics' %}" class="top-menu pull-left">Mechanics</a>
+                <a href="{% url 'months' %}" class="top-menu pull-left">Months</a>
+                <a href="{% url 'time_table' %}" class="top-menu pull-left">Yeatly Timetable</a>
             </div>
 
             <div class="row">
@@ -61,9 +61,9 @@
                 {% if perms.TimeTable.can_add_mechanic and perms.TimeTable.can_add_month and perms.TimeTable.can_add_mod_timetable%}
                 {% block footer %}
 
-                    <a href="{% url 'add_mechanic' %}" class="top-menu pull-right">Добавить механика</a>
-                    <a href="{% url 'choose_month' %}" class="top-menu pull-right">Добавить месяц</a>
-                    <a href="{% url 'create_timetable' %}" class="top-menu pull-right">Создать график</a>
+                    <a href="{% url 'add_mechanic' %}" class="top-menu pull-right">add mechanic</a>
+                    <a href="{% url 'choose_month' %}" class="top-menu pull-right">add month</a>
+                    <a href="{% url 'create_timetable' %}" class="top-menu pull-right">add timetable</a>
 
                 {% endblock %}
                 {% endif %}
